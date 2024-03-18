@@ -73,9 +73,9 @@
   (ppx_sexp_conv
    (>= v0.13.0))
   (mirage-crypto
-    (>= 0.11.2))
+   (>= 0.11.2))
   (mirage-crypto-rng
-    (>= 0.11.2))
+   (>= 0.11.2))
   (cstruct
    (>= 6.0.1))
   (opium
@@ -92,11 +92,11 @@
    (>= 1.1.6))
   (caqti-driver-postgresql
    (and
-    (>= 2.0.1)
+    (>= 2.1.1)
     :with-test))
   (caqti-driver-mariadb
    (and
-    (>= 2.0.1)
+    (>= 2.1.1)
     :with-test))))
 
 (package
@@ -122,11 +122,11 @@
    (>= 1.1.6))
   (caqti-driver-postgresql
    (and
-    (>= 2.0.1)
+    (>= 2.1.1)
     :with-test))
   (caqti-driver-mariadb
    (and
-    (>= 2.0.1)
+    (>= 2.1.1)
     :with-test))))
 
 (package
@@ -147,11 +147,11 @@
    (>= 1.1.6))
   (caqti-driver-postgresql
    (and
-    (>= 2.0.1)
+    (>= 2.1.1)
     :with-test))
   (caqti-driver-mariadb
    (and
-    (>= 2.0.1)
+    (>= 2.1.1)
     :with-test))))
 
 (package
@@ -173,11 +173,11 @@
    (>= 1.1.6))
   (caqti-driver-postgresql
    (and
-    (>= 2.0.1)
+    (>= 2.1.1)
     :with-test))
   (caqti-driver-mariadb
    (and
-    (>= 2.0.1)
+    (>= 2.1.1)
     :with-test))))
 
 (package
@@ -199,11 +199,11 @@
    (>= 1.1.6))
   (caqti-driver-postgresql
    (and
-    (>= 2.0.1)
+    (>= 2.1.1)
     :with-test))
   (caqti-driver-mariadb
    (and
-    (>= 2.0.1)
+    (>= 2.1.1)
     :with-test))))
 
 (package
@@ -228,11 +228,11 @@
    (>= 1.1.6))
   (caqti-driver-postgresql
    (and
-    (>= 2.0.1)
+    (>= 2.1.1)
     :with-test))
   (caqti-driver-mariadb
    (and
-    (>= 2.0.1)
+    (>= 2.1.1)
     :with-test))))
 
 (package
@@ -256,9 +256,9 @@
    (>= 1.1.6))
   (caqti-driver-postgresql
    (and
-    (>= 2.0.1)
+    (>= 2.1.1)
     :with-test))
   (caqti-driver-mariadb
    (and
-    (>= 2.0.1)
+    (>= 2.1.1)
     :with-test))))
