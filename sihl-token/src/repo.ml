@@ -239,7 +239,9 @@ module MariaDb (MigrationService : Sihl.Contract.Migration.Sig) : Sig = struct
   end
 
   let register_migration () =
-    MigrationService.register_migration (Migration.migration ())
+    MigrationService.register_migration
+      ~prioritize:true
+      (Migration.migration ())
   ;;
 
   let register_cleaner () = Cleaner.register_cleaner Sql.clean
@@ -398,7 +400,9 @@ struct
   end
 
   let register_migration () =
-    MigrationService.register_migration (Migration.migration ())
+    MigrationService.register_migration
+      ~prioritize:true
+      (Migration.migration ())
   ;;
 
   let register_cleaner () = Cleaner.register_cleaner Sql.clean

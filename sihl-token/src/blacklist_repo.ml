@@ -107,7 +107,9 @@ module MariaDb : Sig = struct
       |> add_step create_jobs_table)
   ;;
 
-  let register_migration () = Migration.register_migration migration
+  let register_migration () =
+    Migration.register_migration ~prioritize:true migration
+  ;;
 
   let clean_request =
     let open Caqti_request.Infix in
@@ -201,7 +203,9 @@ module PostgreSql : Sig = struct
       |> add_step remove_timezone)
   ;;
 
-  let register_migration () = Migration.register_migration migration
+  let register_migration () =
+    Migration.register_migration ~prioritize:true migration
+  ;;
 
   let clean_request =
     let open Caqti_request.Infix in

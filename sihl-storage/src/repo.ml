@@ -257,7 +257,9 @@ struct
       |> add_step create_handles_table)
   ;;
 
-  let register_migration () = MigrationService.register_migration (migration ())
+  let register_migration () =
+    MigrationService.register_migration ~prioritize:true (migration ())
+  ;;
 
   let register_cleaner () =
     let cleaner ?ctx () =

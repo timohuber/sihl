@@ -14,13 +14,15 @@ exception Exception of string
 exception Dirty_migration
 
 module type Sig = sig
-  (** [register_migration migration] registers a migration [migration] with the
-      migration service so it can be executed with `run_all`. *)
-  val register_migration : t -> unit
+  (** [register_migration ?prioritize migration] registers a migration [migration] with the
+      migration service so it can be executed with `run_all`. Migrations registered with the
+      [prioritize] flat set to true will be executed before the other migrations *)
+  val register_migration : ?prioritize:bool -> t -> unit
 
-  (** [register_migrations migrations] registers migrations [migrations] with
-      the migration service so it can be executed with `run_all`. *)
-  val register_migrations : t list -> unit
+  (** [register_migrations ?prioritize migrations] registers migrations [migrations] with
+      the migration service so it can be executed with `run_all`. Migrations registered with the
+      [prioritize] flat set to true will be executed before the other migrations *)
+  val register_migrations : ?prioritize:bool -> t list -> unit
 
   (** [execute ?ctx migrations] runs all migrations [migrations] on the
       connection pool. *)

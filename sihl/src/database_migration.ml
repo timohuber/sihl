@@ -5,6 +5,10 @@ let log_src = Logs.Src.create ("sihl.service." ^ Contract_migration.name)
 module Logs = (val Logs.src_log log_src : Logs.LOG)
 module Map = Map.Make (String)
 
+let prioritized_registered_migrations : Contract_migration.steps Map.t ref =
+  ref Map.empty
+;;
+
 let registered_migrations : Contract_migration.steps Map.t ref = ref Map.empty
 
 module Make (Repo : Database_migration_repo.Sig) : Contract_migration.Sig =
@@ -72,19 +76,24 @@ struct
     Lwt.return updated_state
   ;;
 
-  let register_migration migration =
+  let register_migration ?(prioritize = false) migration =
+    let migrations_map =
+      if prioritize
+      then prioritized_registered_migrations
+      else registered_migrations
+    in
     let label, _ = migration in
-    let found = Map.find_opt label !registered_migrations in
+    let found = Map.find_opt label !migrations_map in
     match found with
     | Some _ ->
       Logs.debug (fun m ->
         m "Found duplicate migration '%s', ignoring it" label)
-    | None ->
-      registered_migrations
-      := Map.add label (snd migration) !registered_migrations
+    | None -> migrations_map := Map.add label (snd migration) !migrations_map
   ;;
 
-  let register_migrations migrations = List.iter register_migration migrations
+  let register_migrations ?prioritize migrations =
+    List.iter (register_migration ?prioritize) migrations
+  ;;
 
   let set_fk_check_request =
     let open Caqti_request.Infix in
@@ -209,8 +218,10 @@ struct
   ;;
 
   let run_all ?ctx () =
-    let steps = !registered_migrations |> Map.to_seq |> List.of_seq in
-    execute ?ctx steps
+    let to_list map = map |> Map.to_seq |> List.of_seq in
+    let prioritized_steps = !prioritized_registered_migrations |> to_list in
+    let steps = !registered_migrations |> to_list in
+    execute ?ctx (prioritized_steps @ steps)
   ;;
 
   let migrations_status ?ctx ?migrations () =

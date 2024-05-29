@@ -440,7 +440,7 @@ module MakeMariaDb (MigrationService : Sihl.Contract.Migration.Sig) = struct
   let register_cleaner () = Sihl.Cleaner.register_cleaner clean
 
   let register_migration () =
-    MigrationService.register_migration Migration.migration
+    MigrationService.register_migration ~prioritize:true Migration.migration
   ;;
 end
 
@@ -753,6 +753,6 @@ module MakePostgreSql (MigrationService : Sihl.Contract.Migration.Sig) = struct
   let register_cleaner () = Sihl.Cleaner.register_cleaner clean
 
   let register_migration () =
-    MigrationService.register_migration Migration.migration
+    MigrationService.register_migration ~prioritize:true Migration.migration
   ;;
 end

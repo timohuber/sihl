@@ -100,7 +100,9 @@ struct
   end
 
   let register_migration () =
-    MigrationService.register_migration (Migration.migration ())
+    MigrationService.register_migration
+      ~prioritize:true
+      (Migration.migration ())
   ;;
 
   let register_cleaner () = Sihl.Cleaner.register_cleaner clean
@@ -147,7 +149,9 @@ struct
   end
 
   let register_migration () =
-    MigrationService.register_migration (Migration.migration ())
+    MigrationService.register_migration
+      ~prioritize:true
+      (Migration.migration ())
   ;;
 
   let register_cleaner () = Sihl.Cleaner.register_cleaner clean
