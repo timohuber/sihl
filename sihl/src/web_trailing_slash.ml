@@ -1,17 +1,16 @@
 let middleware () =
   let filter handler req =
-    let root_uri =
+    let root_path =
       Core_configuration.read_string "PREFIX_PATH"
       |> CCOption.value ~default:""
       |> Format.asprintf "%s/"
-      |> Uri.of_string
     in
     let uri = req.Opium.Request.target |> Uri.of_string in
     let uri =
       uri
       |> Uri.path
       |> (fun path ->
-           if Uri.equal root_uri uri
+           if CCString.equal root_path path
            then path (* don't drop root *)
            else path |> CCString.rdrop_while (Char.equal '/'))
       |> Uri.with_path uri
