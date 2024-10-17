@@ -42,6 +42,33 @@ let remove_trailing_slash_on_root _ () =
   Lwt.return ()
 ;;
 
+let with_query_on_root _ () =
+  let middleware = Sihl.Web.Middleware.trailing_slash () in
+  let req = Opium.Request.get "/?some=query&other=query" in
+  let handler req =
+    Alcotest.(
+      check
+        string
+        "query with leading slash"
+        "/?some=query&other=query"
+        req.Opium.Request.target);
+    Lwt.return @@ Opium.Response.of_plain_text ""
+  in
+  let%lwt _ = Rock.Middleware.apply middleware handler req in
+  let req = Opium.Request.get "?some=query&other=query" in
+  let handler req =
+    Alcotest.(
+      check
+        string
+        "query without leading slash"
+        "?some=query&other=query"
+        req.Opium.Request.target);
+    Lwt.return @@ Opium.Response.of_plain_text ""
+  in
+  let%lwt _ = Rock.Middleware.apply middleware handler req in
+  Lwt.return ()
+;;
+
 let remove_trailing_slash_on_root_with_prefix _ () =
   Unix.putenv "PREFIX_PATH" "path";
   let middleware = Sihl.Web.Middleware.trailing_slash () in
@@ -66,6 +93,7 @@ let suite =
           "remove trailing slash on root"
           `Quick
           remove_trailing_slash_on_root
+      ; test_case "with url query on root" `Quick with_query_on_root
       ; test_case
           "remove trailing slash on root with prefix"
           `Quick
